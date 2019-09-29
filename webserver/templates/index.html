@@ -1,0 +1,70 @@
+<!-- Server side event (SSE) graphing !-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js example</title>
+    
+  
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="static/bower_components/rickshaw/rickshaw.css">
+
+    <!-- JS -->
+	 
+
+    <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="static/bower_components/rickshaw/vendor/d3.min.js"></script>
+    <script type="text/javascript" src="static/bower_components/rickshaw/vendor/d3.layout.min.js"></script>
+    <script type="text/javascript" src="static/bower_components/rickshaw/rickshaw.min.js"></script>
+    <script type="text/javascript" src="static/js/Rickshaw.Series.Sliding.js"></script>
+    <script type="text/javascript" src="static/js/p5.js"></script>
+
+
+</head>
+
+<body>
+<h1>PISTE Ultra Wide-Band</h1>
+
+<div id="chart"></div>
+
+<script type="text/javascript">
+
+function setup() 
+{createCanvas(447,717);
+  bg=loadImage('static/bg1.jpg');
+}
+var evtSrc = new EventSource("/stream");
+var count = 0;
+var new_x1=0;
+var new_y1=0;
+evtSrc.onmessage = function(e) {
+	var obj = JSON.parse(e.data);
+	new_x1=obj.x1;
+	new_y1=obj.y1;
+	console.log("x1= ", new_x1);
+	console.log("x2= ",new_x2);
+	count += 1;
+};
+var x1=75;
+var y1=75;
+function draw() {
+  background(bg);
+  fill(255, 0, 0, 200);
+  ellipse(20,255, 10, 10);
+  ellipse(20, 450, 10, 10);
+  ellipse(353,455, 10, 10);
+  ellipse(353, 270, 10, 10);
+  fill(255, 255, 0, 200);
+  ellipse(x1+10,y1+10, 10, 10);
+  x1 = new_x1;
+  y1 = new_y1;
+}
+
+</script>
+</body>
+</html>
